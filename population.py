@@ -5,23 +5,33 @@ farms = 0
 menu = True
 game = False
 months = 0
+endgame = False
 
-def month(): ##Resources used during a month
+def gameover():
+	global endgame
+	if population < 1:
+		print ("Everyone is Dead. Game Over")
+		endgame = True
+	else:
+		endgame = False
+
+def month():
 	global food
 	global months
 	global population
-	food =  food + (farms*10)
-	food =  food - population
-	if food < 0 :
-		print ("People are Starving, %d people have died."% food)
-		population =  population +  food
-		## Put stuff here for if population reaches Zero
+	food =  food + (farms*10) ##Generates new food
+	food =  food - population ##Negates food for population
+	if food < 0 : ##If Not enough food
+		print ("People are Starving, %d people have died."% abs(food)) ## prints number of dead
+		population =  population +  food ##kill people
+		food = 0 ##Keep food from going negative
+		gameover() ##Check if anyone is alive
 	else:
 		print ("You Had Enough Food for Month %d"% months)
-	months =  months + 1
+	months =  months + 1 ##Advances Month
 	return food, months, population
 
-def newgame(): ##Set Stats for New Game
+def newgame(): ## Sets everything to starting numbers
 	global population
 	global food
 	global houses
@@ -34,6 +44,8 @@ def newgame(): ##Set Stats for New Game
 	farms = 1
 	months = 1
 	return population, food, houses, farms, months
+
+
 
 while menu == True:
 	print ('Welcome to the Farm Game')
@@ -62,43 +74,27 @@ while game == True:
 	print ("0. Exit")
 	UserInput = input("Choice:")
 	
-	if UserInput == "1": ##Advance Month
+	if UserInput == "1":
 		print ("\n" * 100)
 		month()
+		if endgame == True:
+			game = False
 		continue
 	
-	if UserInput == "2": ##Show Stats
+	if UserInput == "2":
 		print ("\n" * 100)
 		print ("")
-		print ("Stats:")
-		print ("")
+		print ("stats:")
 		print ("Month: %d" %months)
 		print ("Population: %d" %population)
 		print ("Farms: %d" %farms)
 		print ("Food: %d" %food)
 		continue
 	
-	if UserInput == "0": ##Exit
+	if UserInput == "0":
 		print ("\n" * 100)
 		game  = False
 		print ("Goodbye")
 		
 
-
-##Add Energy system
-	##1 Energy per population
-	##energy deminishes if overcrowded
-	##build house, man farm, recruit use energy
 	
-## Game menu has stuff to do before advancing month.
-	##build house
-	##recruit - based on happiness of population
-	##work farm - stop farms auto producing food. 
-	##Arm population/make weapons
-	
-## Random Events - happens on advance months
-	##plague - kills population
-	##infestation - diminish food
-	##Tornado - Destroys Housing and kills people
-	##Fire - Destroys Housing and food (way to upgrade houses to stone to avoid)
-	##Invasion - Kills population if defence is low
