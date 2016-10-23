@@ -6,6 +6,8 @@ menu = True
 game = False
 months = 0
 endgame = False
+overcrowding = 0
+energy = 0
 
 def gameover():
 	global endgame
@@ -14,6 +16,18 @@ def gameover():
 		endgame = True
 	else:
 		endgame = False
+
+def energymanagement():
+	global overcrowding
+	global energy
+	overcrowding = population - (houses*4)
+	if overcrowding > 0:
+		energy = population - overcrowding
+	
+	else:
+		energy = population
+		overcrowding = 0
+
 
 def month():
 	global food
@@ -29,6 +43,7 @@ def month():
 	else:
 		print ("You Had Enough Food for Month %d"% months)
 	months =  months + 1 ##Advances Month
+	energymanagement() 
 	return food, months, population
 
 def newgame(): ## Sets everything to starting numbers
@@ -89,6 +104,7 @@ while game == True:
 		print ("Population: %d" %population)
 		print ("Farms: %d" %farms)
 		print ("Food: %d" %food)
+		print ("Energy: %d" %energy)
 		continue
 	
 	if UserInput == "0":
