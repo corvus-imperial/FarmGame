@@ -79,14 +79,12 @@ def buildhouse():
 		houses = houses + 1
 		energy = energy - 4
 		print ("A house has been built using 4 Energy.")
-		print ("Current Energy: %d" %energy)
+		print ("")
 		print ("Current Houses: %d" %houses)
-		barrier()
 	else:
 		print ("Not Enough Energy to build a House")
-		print ("Current Energy: %d" %energy)
+		print ("")
 		print ("Current Houses: %d" %houses)
-		barrier()
 
 def buildfarm():
 	global energy
@@ -95,14 +93,12 @@ def buildfarm():
 		farms = farms + 1
 		energy = energy - 4
 		print ("A Farm has been built using 4 Energy.")
-		print ("Current Energy: %d" %energy)
+		print ("")
 		print ("Current Farms: %d" %farms)
-		barrier()
 	else:
 		print ("Not enough Energy to build a Farm")
-		print ("Current Energy: %d" %energy)
+		print ("")
 		print ("Current Farms: %d" %farms)
-		barrier()
 		
 def buildbarracks():
 	global energy
@@ -111,14 +107,12 @@ def buildbarracks():
 		barracks = barracks + 1
 		energy = energy - 8
 		print ("A Barracks has been built using 8 Energy.")
-		print ("Current Energy: %d" %energy)
+		print ("")
 		print ("Current Barracks: %d" %barracks)
-		barrier()
 	else:
 		print ("Not enough Energy to build a Barracks")
-		print ("Current Energy: %d" %energy)
+		print ("")
 		print ("Current Barracks: %d" %barracks)
-		barrier()
 
 
 while playing == True:
@@ -191,14 +185,21 @@ while playing == True:
 			game  = False
 			playing = False
 			print ("Goodbye")
+			
+		else:
+			print ("\n" *100)
+			print ("Invalid Selection")
+			barrier()
 		
 
 	while buildmenu == True:
+		print ("Current Energy: %d" %energy)
+		barrier()
 		print ("Build Menu:")
 		print ("")
-		print ("1. Build House")
-		print ("2. Build Farm")
-		print ("3. Build Barracks")
+		print ("1. Build House (4 Energy)")
+		print ("2. Build Farm (4 Energy)")
+		print ("3. Build Barracks (8 Energy)")
 		#print ("")
 		#print ("")
 		#print ("")
@@ -227,3 +228,8 @@ while playing == True:
 			buildmenu = False
 			game = True
 			continue
+		
+		else:
+				print ("\n" *100)
+				print ("Invalid Selection")
+				barrier()
