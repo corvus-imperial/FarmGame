@@ -8,6 +8,8 @@ months = 0
 endgame = False
 overcrowding = 0
 energy = 0
+buildmenu = False
+playing = True
 
 def gameover():
 	global endgame
@@ -52,65 +54,108 @@ def newgame(): ## Sets everything to starting numbers
 	global houses
 	global farms
 	global months
+	global energy
 	print ("You own a farm and a wife. Try to build an empire.")
 	population = 2
 	food = 0
 	houses = 1
 	farms = 1
 	months = 1
+	energy = population
 	return population, food, houses, farms, months
+	
+def buildhouse():
+	global energy
+	global houses
+	if energy >= 4:
+		houses = houses + 1
+		energy = energy - 4
+		print ("A house has been built using 4 Energy.")
+		print ("Current Energy: %d" %energy)
+		print ("Current Houses: %d" %houses)
+	else:
+		print ("Not Enough Energy")
 
 
-
-while menu == True:
-	print ('Welcome to the Farm Game')
-	print('1. Start Game')
-	print('2. Exit')
-	UserInput = input("Choice:")
+while playing == True:
+	while menu == True:
+		print ("\n"*100)
+		print ('Welcome to the Farm Game')
+		print('1. Start Game')
+		print('2. Exit')
+		UserInput = input("Choice:")
 	
-	if UserInput == "1":
-		print ("\n" * 100)
-		newgame()
-		game = True
-		menu = False
-		break
+		if UserInput == "1":
+			print ("\n" * 100)
+			newgame()
+			game = True
+			menu = False
+			break
 	
-	if UserInput == "2":
-		print ("\n" * 100)
-		print ("Thank you for Playing")
-		game = False
-		menu = False
-	
-	
-while game == True:
-	print ("")
-	print ("1. Advance Month")
-	print ("2. Show Stats")
-	print ("0. Exit")
-	UserInput = input("Choice:")
-	
-	if UserInput == "1":
-		print ("\n" * 100)
-		month()
-		if endgame == True:
+		if UserInput == "2":
+			print ("\n" * 100)
+			print ("Thank you for Playing")
 			game = False
-		continue
+			menu = False
+			playing = False
 	
-	if UserInput == "2":
-		print ("\n" * 100)
+	
+	while game == True:
 		print ("")
-		print ("stats:")
-		print ("Month: %d" %months)
-		print ("Population: %d" %population)
-		print ("Farms: %d" %farms)
-		print ("Food: %d" %food)
-		print ("Energy: %d" %energy)
-		continue
+		print ("1. Advance Month")
+		print ("2. Show Stats")
+		print ("3. Open Build Menu")
+		print ("0. Exit")
+		UserInput = input("Choice:")
 	
-	if UserInput == "0":
-		print ("\n" * 100)
-		game  = False
-		print ("Goodbye")
+		if UserInput == "1":
+			print ("\n" * 100)
+			month()
+			if endgame == True:
+				game = False
+			continue
+	
+		if UserInput == "2":
+			print ("\n" * 100)
+			print ("")
+			print ("Stats:")
+			print ("")
+			print ("Month: %d" %months)
+			print ("Population: %d" %population)
+			print ("Farms: %d" %farms)
+			print ("Houses: %d" %houses)
+			print ("Food: %d" %food)
+			print ("Energy: %d" %energy)
+			print ("--------------------------------")
+			continue
+	
+		if UserInput == "3":
+			print ("\n" * 100)
+			game = False
+			buildmenu = True
+			break
+	
+		if UserInput == "0":
+			print ("\n" * 100)
+			game  = False
+			playing = False
+			print ("Goodbye")
 		
 
+	while buildmenu == True:
+		print ("Build Menu:")
+		print ("")
+		print ("1. Build House")
+		print ("0. Return")
+		UserInput = input("Choice:")
 	
+		if UserInput == "1":
+			print ("\n"*100)
+			buildhouse()
+			continue
+		
+		if UserInput == "0":
+			print ("\n"*100)
+			buildmenu = False
+			game = True
+			continue
