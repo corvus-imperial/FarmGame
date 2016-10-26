@@ -11,6 +11,8 @@ energy = 0
 buildmenu = False
 playing = True
 barracks = 0
+usedfarms = 0
+actionmenu = False
 
 def barrier():
 	print ("--------------------------------")
@@ -40,10 +42,10 @@ def month():
 	global food
 	global months
 	global population
-	food =  food + (farms*10) ##Generates new food
 	food =  food - population ##Negates food for population
 	if food < 0 : ##If Not enough food
 		print ("People are Starving, %d people have died."% abs(food)) ## prints number of dead
+		barrier()
 		population =  population +  food ##kill people
 		food = 0 ##Keep food from going negative
 		gameover() ##Check if anyone is alive
@@ -63,7 +65,7 @@ def newgame(): ## Sets everything to starting numbers
 	global barracks
 	print ("You own a farm and a wife. Try to build an empire.")
 	print ("")
-	population = 4
+	population = 2
 	food = 0
 	houses = 1
 	farms = 1
@@ -113,7 +115,41 @@ def buildbarracks():
 		print ("Not enough Energy to build a Barracks")
 		print ("")
 		print ("Current Barracks: %d" %barracks)
-
+		
+def manfarm():
+	global farms
+	global energy
+	global food
+	global usedfarms
+	if energy <1:
+		print ("Not Enough Energy to Man Farm")
+		return
+	print ("Manning Farm")
+	barrier()
+	print ("How much energy would you like to use?")
+	UserInput = input("Energy:")
+	try:
+		val = int(UserInput)
+	except ValueError:
+		print ("\n"*100)
+		print("Invalid input!")
+		barrier()
+		return
+	print ("\n"*100)
+	if int(UserInput) > farms:
+		print ("You don't have that many farms.")
+		return
+	if usedfarms >= farms:
+		print("All your Farms are currently manned.")
+		return
+	newfood = (int(UserInput)*4)
+	energy = energy - int(UserInput)
+	food = food + newfood
+	usedfarms = usedfarms + 1
+	print ("Gained %d food." %newfood)
+	
+	
+	
 
 while playing == True:
 	print ("\n" *100)
@@ -146,6 +182,7 @@ while playing == True:
 		print ("1. Advance Month")
 		print ("2. Show Stats")
 		print ("3. Open Build Menu")
+		print ("4. Open Actions Menu")
 		print ("0. Exit")
 		UserInput = input("Choice:")
 	
@@ -154,6 +191,7 @@ while playing == True:
 			month()
 			if endgame == True:
 				game = False
+				playing = False
 			continue
 	
 		if UserInput == "2":
@@ -180,6 +218,12 @@ while playing == True:
 			buildmenu = True
 			break
 	
+		if UserInput == "4":
+			print ("\n" * 100)
+			game = False
+			actionmenu = True
+			break
+	
 		if UserInput == "0":
 			print ("\n" * 100)
 			game  = False
@@ -191,7 +235,6 @@ while playing == True:
 			print ("Invalid Selection")
 			barrier()
 		
-
 	while buildmenu == True:
 		print ("Current Energy: %d" %energy)
 		barrier()
@@ -226,6 +269,38 @@ while playing == True:
 		if UserInput == "0":
 			print ("\n"*100)
 			buildmenu = False
+			game = True
+			continue
+		
+		else:
+				print ("\n" *100)
+				print ("Invalid Selection")
+				barrier()
+				
+	while actionmenu == True:
+		print ("Current Energy: %d" %energy)
+		barrier()
+		print ("Actions Menu:")
+		print ("")
+		print ("1. Man Farm (1 Energy)")
+		#print ("2. Build Farm (4 Energy)")
+		#print ("3. Build Barracks (8 Energy)")
+		#print ("")
+		#print ("")
+		#print ("")
+		#print ("")
+		#print ("")
+		print ("0. Return")
+		UserInput = input("Choice:")
+		
+		if UserInput == "1":
+			print ("\n"*100)
+			manfarm()
+			continue
+		
+		if UserInput == "0":
+			print ("\n"*100)
+			actionmenu = False
 			game = True
 			continue
 		
