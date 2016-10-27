@@ -51,6 +51,7 @@ def month():
 		gameover() ##Check if anyone is alive
 	else:
 		print ("You Had Enough Food for Month %d"% months)
+		barrier()
 	months =  months + 1 ##Advances Month
 	energymanagement() 
 	return food, months, population
@@ -63,7 +64,7 @@ def newgame(): ## Sets everything to starting numbers
 	global months
 	global energy
 	global barracks
-	print ("You own a farm and a wife. Try to build an empire.")
+	print ("You have a farm and a wife. Try to build an empire.")
 	print ("")
 	population = 2
 	food = 0
@@ -308,3 +309,11 @@ while playing == True:
 				print ("\n" *100)
 				print ("Invalid Selection")
 				barrier()
+				
+	if playing == True:
+		continue
+	else:
+		print("Press enter to close the window.")
+		UserInput = input()
+
+	
