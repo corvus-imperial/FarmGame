@@ -13,6 +13,9 @@ playing = True
 barracks = 0
 usedfarms = 0
 actionmenu = False
+researchmenu = False
+memeunlocked = False
+memecompletion = 0
 
 def barrier():
 	print ("--------------------------------")
@@ -51,7 +54,6 @@ def month():
 		gameover() ##Check if anyone is alive
 	else:
 		print ("You Had Enough Food for Month %d"% months)
-		barrier()
 	months =  months + 1 ##Advances Month
 	energymanagement() 
 	return food, months, population
@@ -64,14 +66,14 @@ def newgame(): ## Sets everything to starting numbers
 	global months
 	global energy
 	global barracks
-	print ("You have a farm and a wife. Try to build an empire.")
+	print ("You own a farm and a wife. Try to build an empire.")
 	print ("")
 	population = 2
-	food = 0
+	food = 100
 	houses = 1
 	farms = 1
 	months = 1
-	energy = population
+	energy = 100
 	barracks = 0
 	return population, food, houses, farms, months
 	
@@ -149,7 +151,29 @@ def manfarm():
 	usedfarms = usedfarms + 1
 	print ("Gained %d food." %newfood)
 	
-	
+def memeresearch():
+	global memeunlocked
+	global memecompletion
+	global energy
+	if memeunlocked == True:
+			print ("You have already fully researched Memes.")
+			barrier()
+			return
+	if energy >= 3:
+		memecompletion = memecompletion +1
+		energy = energy - 3
+		print ("Researching Memes, new status %d/10" %memecompletion)
+		if memecompletion > 9:
+			memeunlocked = True
+			print ("Meme Research is Complete.")
+			barrier()
+			return
+		barrier()
+		return
+	if energy < 3:
+		print ("Not enough Energy for research")
+		barrier()
+		return
 	
 
 while playing == True:
@@ -184,6 +208,7 @@ while playing == True:
 		print ("2. Show Stats")
 		print ("3. Open Build Menu")
 		print ("4. Open Actions Menu")
+		print ("5. Open Research Menu")
 		print ("0. Exit")
 		UserInput = input("Choice:")
 	
@@ -223,6 +248,12 @@ while playing == True:
 			print ("\n" * 100)
 			game = False
 			actionmenu = True
+			break
+		
+		if UserInput == "5":
+			print ("\n" * 100)
+			game = False
+			researchmenu = True
 			break
 	
 		if UserInput == "0":
@@ -310,10 +341,31 @@ while playing == True:
 				print ("Invalid Selection")
 				barrier()
 				
-	if playing == True:
-		continue
-	else:
-		print("Press enter to close the window.")
-		UserInput = input()
+	while researchmenu == True:
+		print ("Current Energy: %d" %energy)
+		barrier()
+		print ("Research Menu:")
+		barrier()
+		if memeunlocked == False:
+			print ("1. Research Memes, %d/10, 3 Energy" %memecompletion)
+		else:
+			print ("1. Meme Research Complete")
+		print ("0. Exit Menu")
 
-	
+		UserInput = input("Choice:")
+
+		if UserInput == "1":
+			print ("\n"*100)
+			memeresearch()
+			continue
+		
+		if UserInput == "0":
+			print ("\n"*100)
+			researchmenu = False
+			game = True
+			continue
+		
+		else:
+				print ("\n" *100)
+				print ("Invalid Selection")
+				barrier()
